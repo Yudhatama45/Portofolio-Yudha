@@ -8,8 +8,10 @@
     "build": "vite build",
     "preview": "vite preview"
   },
+  "engines": {
+    "node": ">=18"
+  },
   "devDependencies": {
-    "sharp": "^0.34.5",
-    "vite": "^8.0.1"
+    "vite": "^6.3.7"
   }
 }
