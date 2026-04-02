@@ -3,7 +3,7 @@ import './style.css'
 // ===== LANGUAGE DATA =====
 const lang = {
   id: {
-    navHome: 'Beranda', navAbout: 'Tentang', navExp: 'Pengalaman', navSkills: 'Keahlian', navProjects: 'Proyek', navEvents: 'Event', navContact: 'Kontak',
+    navHome: 'Beranda', navAbout: 'Tentang', navExp: 'Pengalaman', navSkills: 'Keahlian', navProjects: 'Proyek', navEvents: 'Event', navGallery: 'Galeri', navContact: 'Kontak',
     heroWelcome: 'SELAMAT DATANG',
     heroDesc: 'Ecosystem Builder // Blockchain Enthusiast // Community Leader',
     heroBtn1: 'LIHAT PENGALAMAN', heroBtn2: 'HUBUNGI',
@@ -11,14 +11,14 @@ const lang = {
     aboutSummary1: 'Web3 Community Manager, Ecosystem Builder, dan Ambassador dengan pengalaman <span class="hl">4+ tahun</span> di pertumbuhan komunitas blockchain, pengembangan ekosistem DeFi, aktivasi media sosial, dan eksekusi event Web3 offline di seluruh Indonesia.',
     aboutSummary2: 'Berpengalaman mengelola komunitas <span class="hl">Telegram, Discord, dan X</span>, memimpin program ambassador, <span class="hl">manage & organize event offline Web3</span>, dan mengkoordinasi aktivasi blockchain regional.',
     expTitle: 'PENGALAMAN', eduTitle: 'PENDIDIKAN', eduDegree: 'Sarjana Pendidikan Teknik Elektro',
-    skillsTitle: 'KEAHLIAN', eventsTitle: 'EVENT', projectsTitle: 'PROYEK INOVASI', contactTitle: 'KONTAK',
+    skillsTitle: 'KEAHLIAN', eventsTitle: 'EVENT', projectsTitle: 'PROYEK INOVASI', galleryTitle: 'GALERI', galleryEmpty: 'Segera hadir — Foto-foto aksi MC & event akan ditampilkan di sini.', galleryAll: 'Semua', contactTitle: 'KONTAK',
     contactSub: '// MARI BERKOLABORASI', contactDesc: 'Saat ini saya terbuka untuk peluang kerja baru di ekosistem Web3.',
     contactBtn: 'KIRIM PESAN', footerText: 'Dibuat dengan passion & kode',
     sending: 'MENGIRIM...', sent: '✓ TERKIRIM',
     evtHosted: 'Event Diselenggarakan', evtAttended: 'Event Dihadiri', evtPartners: 'Partner Protokol', evtSeeAll: 'LIHAT SEMUA DI LUMA',
   },
   en: {
-    navHome: 'Home', navAbout: 'About', navExp: 'Experience', navSkills: 'Skills', navProjects: 'Projects', navEvents: 'Events', navContact: 'Contact',
+    navHome: 'Home', navAbout: 'About', navExp: 'Experience', navSkills: 'Skills', navProjects: 'Projects', navEvents: 'Events', navGallery: 'Gallery', navContact: 'Contact',
     heroWelcome: 'WELCOME TO MY SPACE',
     heroDesc: 'Ecosystem Builder // Blockchain Enthusiast // Community Leader',
     heroBtn1: 'VIEW EXPERIENCE', heroBtn2: 'CONNECT',
@@ -26,7 +26,7 @@ const lang = {
     aboutSummary1: 'Web3 Community Manager, Ecosystem Builder, and Ambassador with <span class="hl">4+ years</span> of experience in blockchain community growth, DeFi ecosystem development, social media activation, and offline Web3 event execution across Indonesia.',
     aboutSummary2: 'Experienced in managing <span class="hl">Telegram, Discord, and X</span> communities, leading ambassador programs, <span class="hl">manage & organize offline Web3 events</span>, and coordinating regional blockchain activations.',
     expTitle: 'EXPERIENCE', eduTitle: 'EDUCATION', eduDegree: 'Bachelor of Electrical Engineering Education',
-    skillsTitle: 'SKILLS', eventsTitle: 'EVENTS', projectsTitle: 'INNOVATION PROJECT', contactTitle: 'GET IN TOUCH',
+    skillsTitle: 'SKILLS', eventsTitle: 'EVENTS', projectsTitle: 'INNOVATION PROJECT', galleryTitle: 'GALLERY', galleryEmpty: 'Coming soon — MC & event action shots will be displayed here.', galleryAll: 'All', contactTitle: 'GET IN TOUCH',
     contactSub: '// LET\'S COLLABORATE', contactDesc: 'Currently open to new opportunities in the Web3 ecosystem.',
     contactBtn: 'TRANSMIT MESSAGE', footerText: 'Built with passion & code',
     sending: 'TRANSMITTING...', sent: '✓ TRANSMITTED',
@@ -114,6 +114,26 @@ const skills = [
   { name: 'Public Speaking', level: 80 },
   { name: 'English & Bahasa Indonesia', level: 95 },
 ];
+
+// ===== GALLERY DATA =====
+// To add photos: put image in /public/gallery/ and add entry here
+// Categories: 'mc' (MC/Host), 'event' (Event Running), 'workshop', 'meetup', 'community'
+const galleryPhotos = [
+  // Example format (uncomment and edit when adding photos):
+  // { src: '/gallery/photo1.jpg', title: 'MC at Arbitrum Road to Campus', cat: 'mc', event: 'Arbitrum Road to Campus', date: 'Dec 2025' },
+  // { src: '/gallery/photo2.jpg', title: 'Running DeFi Nusantara Workshop', cat: 'event', event: 'DeFi Nusantara Jogja', date: 'Sep 2025' },
+  // { src: '/gallery/photo3.jpg', title: 'Hosting Web3 Weekly Meetup', cat: 'meetup', event: 'WFA Friday', date: 'Nov 2025' },
+  // { src: '/gallery/photo4.jpg', title: 'Workshop Facilitator', cat: 'workshop', event: 'Sui Dev Workshop', date: 'Jan 2026' },
+  // { src: '/gallery/photo5.jpg', title: 'Community Gathering', cat: 'community', event: 'CryptoIndo Jogja', date: 'Aug 2024' },
+];
+
+const galleryCatLabels = {
+  mc: { id: 'MC / Host', en: 'MC / Host', icon: '🎤' },
+  event: { id: 'Event Running', en: 'Event Running', icon: '🚀' },
+  workshop: { id: 'Workshop', en: 'Workshop', icon: '🔧' },
+  meetup: { id: 'Meetup', en: 'Meetup', icon: '🤝' },
+  community: { id: 'Komunitas', en: 'Community', icon: '👥' },
+};
 
 // ===== EVENTS DATA (from lu.ma/user/Yudhatama) =====
 const hostedEvents = [
@@ -340,6 +360,7 @@ function renderPage(cl) {
         <li><a href="#skills" class="nav-link">${t.navSkills}</a></li>
         <li><a href="#projects" class="nav-link">${t.navProjects}</a></li>
         <li><a href="#events" class="nav-link">${t.navEvents}</a></li>
+        <li><a href="#gallery" class="nav-link">${t.navGallery}</a></li>
         <li><a href="#contact" class="nav-link">${t.navContact}</a></li>
       </ul>
       <div class="nav-ctrls">
@@ -428,6 +449,23 @@ function renderPage(cl) {
       ${buildEventsHTML(cl)}
     </section>
 
+    <section id="gallery" class="section gallery-section">
+      <div class="section-header fade-up"><span class="section-tag">&lt;gallery&gt;</span><h2>${t.galleryTitle} <span class="accent">.</span>WALL</h2><div class="cyber-line"></div></div>
+      <div class="gallery-filters fade-up" id="gallery-filters"></div>
+      <div class="gallery-grid" id="gallery-grid"></div>
+      <div class="gallery-empty fade-up" id="gallery-empty" style="display:none">
+        <div class="empty-icon">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+            <circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
+          </svg>
+        </div>
+        <p class="empty-text">${t.galleryEmpty}</p>
+        <div class="empty-pulse"></div>
+      </div>
+    </section>
+
     <section id="contact" class="section">
       <div class="section-header fade-up"><span class="section-tag">&lt;contact&gt;</span><h2>${t.contactTitle}</h2><div class="cyber-line"></div></div>
       <div class="contact-container cyber-card fade-up">
@@ -504,6 +542,9 @@ function initApp(cl) {
     if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
   });
 
+  // ===== GALLERY INIT =====
+  initGallery(cl);
+
   // Form
   const form = document.getElementById('contact-form');
   if (form) form.addEventListener('submit', e => {
@@ -515,6 +556,148 @@ function initApp(cl) {
       setTimeout(() => { btn.innerHTML = orig; }, 3000);
     }, 1500);
   });
+}
+
+// ===== GALLERY SYSTEM =====
+function initGallery(cl) {
+  const t = lang[cl];
+  const grid = document.getElementById('gallery-grid');
+  const filtersEl = document.getElementById('gallery-filters');
+  const emptyEl = document.getElementById('gallery-empty');
+  if (!grid) return;
+
+  // Show empty state if no photos
+  if (galleryPhotos.length === 0) {
+    grid.style.display = 'none';
+    filtersEl.style.display = 'none';
+    emptyEl.style.display = '';
+    return;
+  }
+
+  emptyEl.style.display = 'none';
+  grid.style.display = '';
+  filtersEl.style.display = '';
+
+  // Build filter buttons
+  const cats = [...new Set(galleryPhotos.map(p => p.cat))];
+  filtersEl.innerHTML = `<button class="gal-filter active" data-cat="all"><span class="gal-filter-icon">⬡</span>${t.galleryAll}</button>` +
+    cats.map(c => {
+      const info = galleryCatLabels[c] || { id: c, en: c, icon: '📌' };
+      return `<button class="gal-filter" data-cat="${c}"><span class="gal-filter-icon">${info.icon}</span>${info[cl] || info.en}</button>`;
+    }).join('');
+
+  // Build gallery cards
+  function renderGallery(filter) {
+    const photos = filter === 'all' ? galleryPhotos : galleryPhotos.filter(p => p.cat === filter);
+    grid.innerHTML = photos.map((p, i) => {
+      const catInfo = galleryCatLabels[p.cat] || { id: p.cat, en: p.cat, icon: '📌' };
+      return `
+      <div class="gal-card fade-up" style="transition-delay:${Math.min(i * 60, 400)}ms" data-index="${galleryPhotos.indexOf(p)}">
+        <div class="gal-card-inner">
+          <div class="gal-img-wrap">
+            <img src="${p.src}" alt="${p.title}" class="gal-img" loading="lazy" />
+            <div class="gal-overlay">
+              <div class="gal-zoom-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                  <line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/>
+                </svg>
+              </div>
+            </div>
+            <div class="gal-scanline"></div>
+          </div>
+          <div class="gal-info">
+            <div class="gal-info-top">
+              <span class="gal-cat-badge"><span class="gal-cat-icon">${catInfo.icon}</span>${catInfo[cl] || catInfo.en}</span>
+              <span class="gal-date">${p.date}</span>
+            </div>
+            <h4 class="gal-title">${p.title}</h4>
+            <span class="gal-event"><span class="gal-event-dot"></span>${p.event}</span>
+          </div>
+        </div>
+        <div class="gal-card-glow"></div>
+      </div>`;
+    }).join('');
+
+    // Re-observe fade-up
+    const obs = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } }), { threshold: 0.1 });
+    grid.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+
+    // Click to open lightbox
+    grid.querySelectorAll('.gal-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const idx = parseInt(card.dataset.index);
+        openLightbox(idx);
+      });
+    });
+  }
+
+  renderGallery('all');
+
+  // Filter click
+  filtersEl.addEventListener('click', e => {
+    const btn = e.target.closest('.gal-filter');
+    if (!btn) return;
+    filtersEl.querySelectorAll('.gal-filter').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderGallery(btn.dataset.cat);
+  });
+
+  // ===== LIGHTBOX =====
+  function openLightbox(idx) {
+    const photo = galleryPhotos[idx];
+    if (!photo) return;
+    const catInfo = galleryCatLabels[photo.cat] || { id: photo.cat, en: photo.cat, icon: '📌' };
+
+    const lb = document.createElement('div');
+    lb.className = 'gal-lightbox';
+    lb.innerHTML = `
+      <div class="lb-backdrop"></div>
+      <div class="lb-content">
+        <button class="lb-close" aria-label="Close">✕</button>
+        <button class="lb-nav lb-prev" aria-label="Previous">❮</button>
+        <button class="lb-nav lb-next" aria-label="Next">❯</button>
+        <div class="lb-img-wrap">
+          <img src="${photo.src}" alt="${photo.title}" class="lb-img" />
+          <div class="lb-scanlines"></div>
+        </div>
+        <div class="lb-info">
+          <div class="lb-meta">
+            <span class="lb-cat"><span class="gal-cat-icon">${catInfo.icon}</span>${catInfo[cl] || catInfo.en}</span>
+            <span class="lb-date">${photo.date}</span>
+          </div>
+          <h3 class="lb-title">${photo.title}</h3>
+          <span class="lb-event">${photo.event}</span>
+          <span class="lb-counter">${idx + 1} / ${galleryPhotos.length}</span>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(lb);
+    document.body.style.overflow = 'hidden';
+    requestAnimationFrame(() => lb.classList.add('lb-open'));
+
+    function closeLb() {
+      lb.classList.remove('lb-open');
+      document.body.style.overflow = '';
+      setTimeout(() => lb.remove(), 400);
+      document.removeEventListener('keydown', keyHandler);
+    }
+    function navigate(dir) {
+      const newIdx = (idx + dir + galleryPhotos.length) % galleryPhotos.length;
+      closeLb();
+      setTimeout(() => openLightbox(newIdx), 100);
+    }
+    function keyHandler(e) {
+      if (e.key === 'Escape') closeLb();
+      if (e.key === 'ArrowLeft') navigate(-1);
+      if (e.key === 'ArrowRight') navigate(1);
+    }
+    document.addEventListener('keydown', keyHandler);
+    lb.querySelector('.lb-backdrop').addEventListener('click', closeLb);
+    lb.querySelector('.lb-close').addEventListener('click', closeLb);
+    lb.querySelector('.lb-prev').addEventListener('click', () => navigate(-1));
+    lb.querySelector('.lb-next').addEventListener('click', () => navigate(1));
+  }
 }
 
 // ===== CYBERPUNK LOADING SCREEN — ULTIMATE EDITION =====
