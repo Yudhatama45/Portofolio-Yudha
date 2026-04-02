@@ -418,7 +418,7 @@ function renderPage(cl) {
     </section>
 
     <section id="projects" class="section projects-section">
-      <div class="section-header fade-up"><span class="section-tag">&lt;projects&gt;</span><h2>${t.projectsTitle} <span class="accent">&</span> INOVASI</h2><div class="cyber-line"></div></div>
+      <div class="section-header fade-up"><span class="section-tag">&lt;projects&gt;</span><h2>${t.projectsTitle}</h2><div class="cyber-line"></div></div>
       <p class="proj-subtitle fade-up" style="text-align:center;margin-bottom:3rem;max-width:700px;margin-left:auto;margin-right:auto;">2024 – 2026</p>
       <div class="proj-timeline">${buildProjectsHTML(cl)}</div>
     </section>
@@ -517,77 +517,323 @@ function initApp(cl) {
   });
 }
 
-// ===== LOADING SCREEN =====
+// ===== CYBERPUNK LOADING SCREEN — ULTIMATE EDITION =====
 function showLoadingScreen() {
   const loader = document.createElement('div');
   loader.id = 'cyber-loader';
   loader.innerHTML = `
+    <canvas id="matrix-rain" class="matrix-canvas"></canvas>
     <div class="loader-bg">
       <div class="loader-grid"></div>
       <div class="loader-scanline"></div>
-    </div>
-    <div class="loader-content">
-      <div class="loader-hex">
-        <svg viewBox="0 0 100 100" width="80" height="80">
-          <polygon points="50,2 93,25 93,75 50,98 7,75 7,25" fill="none" stroke="currentColor" stroke-width="1" class="hex-outer"/>
-          <polygon points="50,12 83,30 83,70 50,88 17,70 17,30" fill="none" stroke="currentColor" stroke-width="0.5" class="hex-inner"/>
+      <div class="loader-scanline s2"></div>
+      <div class="circuit-traces">
+        <svg class="circuit-svg" viewBox="0 0 800 600" preserveAspectRatio="none">
+          <path class="circuit-path c1" d="M0,100 H200 L220,120 H400 L420,100 H600" />
+          <path class="circuit-path c2" d="M800,200 H600 L580,220 H350 L330,200 H100" />
+          <path class="circuit-path c3" d="M0,400 H150 L170,380 H500 L520,400 H800" />
+          <path class="circuit-path c4" d="M400,0 V150 L420,170 V300 L400,320 V600" />
+          <path class="circuit-path c5" d="M200,0 V80 L220,100 V200 L200,220 V350" />
+          <path class="circuit-path c6" d="M600,600 V450 L580,430 V300 L600,280 V0" />
+          <circle class="circuit-node cn1" cx="200" cy="100" r="3" />
+          <circle class="circuit-node cn2" cx="600" cy="200" r="3" />
+          <circle class="circuit-node cn3" cx="400" cy="300" r="3" />
+          <circle class="circuit-node cn4" cx="150" cy="400" r="3" />
+          <circle class="circuit-node cn5" cx="420" cy="170" r="3" />
         </svg>
       </div>
-      <div class="loader-name">
-        <span class="loader-char" style="--i:0">Y</span>
-        <span class="loader-char" style="--i:1">U</span>
-        <span class="loader-char" style="--i:2">D</span>
-        <span class="loader-char" style="--i:3">H</span>
-        <span class="loader-char" style="--i:4">A</span>
-        <span class="loader-space"></span>
-        <span class="loader-char" style="--i:5">T</span>
-        <span class="loader-char" style="--i:6">A</span>
-        <span class="loader-char" style="--i:7">M</span>
-        <span class="loader-char" style="--i:8">A</span>
+      <div class="electric-arcs">
+        <div class="arc arc-1"></div>
+        <div class="arc arc-2"></div>
+        <div class="arc arc-3"></div>
       </div>
-      <div class="loader-subtitle">INITIALIZING SYSTEM</div>
-      <div class="loader-bar-container">
-        <div class="loader-bar">
-          <div class="loader-bar-fill" id="loader-fill"></div>
+      <div class="holo-flicker"></div>
+    </div>
+    <div class="loader-content">
+      <div class="loader-hex-system">
+        <div class="hex-ring hex-ring-outer">
+          <svg viewBox="0 0 120 120" width="120" height="120">
+            <polygon points="60,2 112,30 112,90 60,118 8,90 8,30" fill="none" stroke="url(#hexGrad)" stroke-width="1" class="hex-outer" />
+            <defs><linearGradient id="hexGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#a855f7"/><stop offset="50%" stop-color="#06b6d4"/><stop offset="100%" stop-color="#ec4899"/></linearGradient></defs>
+          </svg>
         </div>
-        <div class="loader-pct" id="loader-pct">0%</div>
+        <div class="hex-ring hex-ring-mid">
+          <svg viewBox="0 0 90 90" width="90" height="90">
+            <polygon points="45,3 84,24 84,66 45,87 6,66 6,24" fill="none" stroke="rgba(168,85,247,0.4)" stroke-width="0.8" class="hex-mid" />
+          </svg>
+        </div>
+        <div class="hex-ring hex-ring-inner">
+          <svg viewBox="0 0 60 60" width="60" height="60">
+            <polygon points="30,3 56,17 56,43 30,57 4,43 4,17" fill="none" stroke="rgba(6,182,212,0.6)" stroke-width="0.6" class="hex-inner-poly" />
+          </svg>
+        </div>
+        <div class="hex-core-pulse"></div>
+        <div class="hex-data-ring" id="hex-data-ring"></div>
       </div>
-      <div class="loader-status" id="loader-status">CONNECTING...</div>
+      <div class="loader-name-container">
+        <div class="loader-name-glitch" id="loader-name-glitch">
+          <span class="loader-name-main" id="loader-name-main">YUDHA TAMA</span>
+          <span class="loader-name-ghost g1" aria-hidden="true">YUDHA TAMA</span>
+          <span class="loader-name-ghost g2" aria-hidden="true">YUDHA TAMA</span>
+        </div>
+        <div class="loader-tagline">
+          <span class="tag-bracket">[</span>
+          <span class="loader-role" id="loader-role"></span>
+          <span class="loader-cursor-blink">█</span>
+          <span class="tag-bracket">]</span>
+        </div>
+      </div>
+      <div class="loader-terminal" id="loader-terminal">
+        <div class="terminal-line" id="term-line"></div>
+      </div>
+      <div class="loader-progress-system">
+        <div class="progress-label">
+          <span class="progress-tag">SYS.BOOT</span>
+          <span class="progress-segments" id="progress-segments">
+            <span class="seg"></span><span class="seg"></span><span class="seg"></span><span class="seg"></span><span class="seg"></span>
+            <span class="seg"></span><span class="seg"></span><span class="seg"></span><span class="seg"></span><span class="seg"></span>
+          </span>
+          <span class="progress-pct" id="loader-pct">000</span>
+        </div>
+        <div class="progress-bar-wrapper">
+          <div class="progress-bar">
+            <div class="progress-fill" id="loader-fill">
+              <div class="progress-glow"></div>
+              <div class="progress-data-stream"></div>
+            </div>
+            <div class="progress-corruption" id="progress-corruption"></div>
+          </div>
+          <div class="progress-ticks">
+            ${Array.from({length:20},(_,i)=>`<span class="tick" style="left:${i*5}%"></span>`).join('')}
+          </div>
+        </div>
+        <div class="progress-status-row">
+          <span class="status-indicator" id="status-indicator">◆</span>
+          <span class="loader-status" id="loader-status">CONNECTING TO MAINFRAME...</span>
+        </div>
+      </div>
+      <div class="loader-data-readout">
+        <span class="data-item" id="data-mem">MEM: ████░░ 67%</span>
+        <span class="data-sep">│</span>
+        <span class="data-item" id="data-cpu">CPU: ██████ 94%</span>
+        <span class="data-sep">│</span>
+        <span class="data-item" id="data-net">NET: ███░░░ 52%</span>
+      </div>
     </div>
   `;
   document.body.appendChild(loader);
   document.body.style.overflow = 'hidden';
 
+  // === Matrix Rain on Canvas ===
+  const canvas = document.getElementById('matrix-rain');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  const matrixChars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEF{}[]<>=/\\|@#$%&';
+  const fontSize = 12;
+  const columns = Math.floor(canvas.width / fontSize);
+  const drops = Array(columns).fill(1);
+
+  function drawMatrix() {
+    ctx.fillStyle = 'rgba(3,0,20,0.08)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.font = fontSize + 'px monospace';
+    for (let i = 0; i < drops.length; i++) {
+      const char = matrixChars[Math.floor(Math.random() * matrixChars.length)];
+      const x = i * fontSize;
+      const y = drops[i] * fontSize;
+      // Random colors: purple, cyan, pink
+      const colors = ['rgba(168,85,247,0.7)', 'rgba(6,182,212,0.5)', 'rgba(236,72,153,0.4)'];
+      ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
+      ctx.fillText(char, x, y);
+      if (y > canvas.height && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
+    }
+  }
+  const matrixInterval = setInterval(drawMatrix, 45);
+
+  // === Name Scramble Effect ===
+  const nameEl = document.getElementById('loader-name-main');
+  const targetName = 'YUDHA TAMA';
+  const scrambleChars = '!@#$%^&*()_+-=[]{}|;:,.<>?/~`0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  let nameRevealed = Array(targetName.length).fill(false);
+  let scrambleFrame = 0;
+
+  function scrambleName() {
+    let result = '';
+    for (let i = 0; i < targetName.length; i++) {
+      if (targetName[i] === ' ') { result += ' '; continue; }
+      if (nameRevealed[i]) { result += targetName[i]; continue; }
+      result += scrambleChars[Math.floor(Math.random() * scrambleChars.length)];
+    }
+    nameEl.textContent = result;
+    // Also update ghost layers
+    document.querySelectorAll('.loader-name-ghost').forEach(g => g.textContent = result);
+    scrambleFrame++;
+    if (scrambleFrame > 8) {
+      const unrevealed = nameRevealed.map((v, i) => v || targetName[i] === ' ' ? -1 : i).filter(i => i >= 0);
+      if (unrevealed.length > 0) {
+        const idx = unrevealed[Math.floor(Math.random() * unrevealed.length)];
+        nameRevealed[idx] = true;
+      }
+    }
+    if (!nameRevealed.every((v, i) => v || targetName[i] === ' ')) {
+      requestAnimationFrame(scrambleName);
+    } else {
+      nameEl.textContent = targetName;
+      document.querySelectorAll('.loader-name-ghost').forEach(g => g.textContent = targetName);
+    }
+  }
+  setTimeout(scrambleName, 300);
+
+  // === Typewriter Role Text ===
+  const roleEl = document.getElementById('loader-role');
+  const roles = ['WEB3 COMMUNITY MANAGER', 'ECOSYSTEM BUILDER', 'BLOCKCHAIN AMBASSADOR'];
+  let roleIdx = 0, roleCharIdx = 0, roleTyping = true;
+  function typeRole() {
+    const current = roles[roleIdx];
+    if (roleTyping) {
+      roleEl.textContent = current.slice(0, roleCharIdx + 1);
+      roleCharIdx++;
+      if (roleCharIdx >= current.length) {
+        roleTyping = false;
+        setTimeout(typeRole, 1200);
+        return;
+      }
+      setTimeout(typeRole, 40 + Math.random() * 30);
+    } else {
+      roleEl.textContent = current.slice(0, roleCharIdx);
+      roleCharIdx--;
+      if (roleCharIdx <= 0) {
+        roleTyping = true;
+        roleIdx = (roleIdx + 1) % roles.length;
+        setTimeout(typeRole, 300);
+        return;
+      }
+      setTimeout(typeRole, 20);
+    }
+  }
+  setTimeout(typeRole, 800);
+
+  // === Terminal Log ===
+  const termLine = document.getElementById('term-line');
+  const termLogs = [
+    '> Establishing secure connection...',
+    '> Handshake protocol: OK',
+    '> Loading neural interface assets...',
+    '> Decrypting blockchain profiles...',
+    '> Compiling experience matrix...',
+    '> Rendering holographic UI...',
+    '> Calibrating visual cortex...',
+    '> All subsystems nominal.',
+    '> BOOT SEQUENCE COMPLETE ✓',
+  ];
+  let termIdx = 0;
+  function advanceTerm() {
+    if (termIdx < termLogs.length) {
+      termLine.textContent = termLogs[termIdx];
+      termLine.classList.remove('term-typed');
+      void termLine.offsetWidth;
+      termLine.classList.add('term-typed');
+      termIdx++;
+    }
+  }
+
+  // === Hex Data Ring ===
+  const hexDataRing = document.getElementById('hex-data-ring');
+  for (let i = 0; i < 24; i++) {
+    const dot = document.createElement('span');
+    dot.className = 'hex-data-dot';
+    dot.style.setProperty('--angle', (i * 15) + 'deg');
+    dot.style.animationDelay = (i * 0.1) + 's';
+    hexDataRing.appendChild(dot);
+  }
+
+  // === Data Readout Randomizer ===
+  function randomBar(pct) {
+    const filled = Math.round(pct / 16.66);
+    return '█'.repeat(filled) + '░'.repeat(6 - filled);
+  }
+  function updateReadout() {
+    const m = Math.floor(50 + Math.random() * 48);
+    const c = Math.floor(70 + Math.random() * 30);
+    const n = Math.floor(30 + Math.random() * 65);
+    document.getElementById('data-mem').textContent = `MEM: ${randomBar(m)} ${m}%`;
+    document.getElementById('data-cpu').textContent = `CPU: ${randomBar(c)} ${c}%`;
+    document.getElementById('data-net').textContent = `NET: ${randomBar(n)} ${n}%`;
+  }
+  const readoutInterval = setInterval(updateReadout, 300);
+
+  // === Corruption Glitch Effect ===
+  function triggerCorruption() {
+    const corr = document.getElementById('progress-corruption');
+    corr.classList.add('active');
+    setTimeout(() => corr.classList.remove('active'), 150);
+  }
+
+  // === Progress ===
   const fill = document.getElementById('loader-fill');
   const pctEl = document.getElementById('loader-pct');
   const statusEl = document.getElementById('loader-status');
+  const statusInd = document.getElementById('status-indicator');
+  const segments = document.querySelectorAll('.seg');
   const statuses = [
-    { at: 0, txt: 'CONNECTING...' },
-    { at: 15, txt: 'LOADING ASSETS...' },
-    { at: 35, txt: 'DECRYPTING DATA...' },
-    { at: 55, txt: 'BUILDING INTERFACE...' },
-    { at: 75, txt: 'RENDERING NODES...' },
-    { at: 90, txt: 'SYSTEM READY' },
+    { at: 0, txt: 'CONNECTING TO MAINFRAME...', color: '#a855f7' },
+    { at: 10, txt: 'AUTHENTICATING NEURAL LINK...', color: '#7c3aed' },
+    { at: 25, txt: 'LOADING BLOCKCHAIN NODES...', color: '#3b82f6' },
+    { at: 40, txt: 'DECRYPTING PROFILE DATA...', color: '#06b6d4' },
+    { at: 55, txt: 'COMPILING EXPERIENCE MATRIX...', color: '#22c55e' },
+    { at: 70, txt: 'RENDERING HOLOGRAPHIC UI...', color: '#ec4899' },
+    { at: 85, txt: 'CALIBRATING VISUAL CORTEX...', color: '#f59e0b' },
+    { at: 95, txt: 'SYSTEM READY — WELCOME', color: '#22c55e' },
   ];
 
   let pct = 0;
+  let lastTermAt = -1;
   const interval = setInterval(() => {
-    pct += Math.random() * 3 + 1;
+    pct += Math.random() * 2.5 + 0.8;
     if (pct >= 100) pct = 100;
     fill.style.width = pct + '%';
-    pctEl.textContent = Math.floor(pct) + '%';
+    pctEl.textContent = String(Math.floor(pct)).padStart(3, '0');
+
+    // Segments
+    const segFill = Math.floor(pct / 10);
+    segments.forEach((s, i) => s.classList.toggle('filled', i < segFill));
+
+    // Status
     const s = statuses.filter(s => s.at <= pct).pop();
-    if (s) statusEl.textContent = s.txt;
+    if (s) {
+      statusEl.textContent = s.txt;
+      statusInd.style.color = s.color;
+    }
+
+    // Terminal advancement
+    const termAt = Math.floor(pct / 12);
+    if (termAt > lastTermAt) { lastTermAt = termAt; advanceTerm(); }
+
+    // Random corruption
+    if (Math.random() < 0.08) triggerCorruption();
+
+    // Random glitch on name
+    if (Math.random() < 0.05) {
+      const nameGlitch = document.getElementById('loader-name-glitch');
+      nameGlitch.classList.add('glitch-active');
+      setTimeout(() => nameGlitch.classList.remove('glitch-active'), 150);
+    }
 
     if (pct >= 100) {
       clearInterval(interval);
+      clearInterval(matrixInterval);
+      clearInterval(readoutInterval);
+      statusInd.textContent = '◆';
+      statusInd.style.color = '#22c55e';
       setTimeout(() => {
         loader.classList.add('loader-exit');
         document.body.style.overflow = '';
-        setTimeout(() => loader.remove(), 800);
-      }, 400);
+        setTimeout(() => loader.remove(), 1000);
+      }, 600);
     }
-  }, 50);
+  }, 55);
 }
 
 // ===== INIT =====
