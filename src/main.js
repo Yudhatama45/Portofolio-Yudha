@@ -16,6 +16,7 @@ const lang = {
     contactBtn: 'KIRIM PESAN', footerText: 'Dibuat dengan passion & kode',
     sending: 'MENGIRIM...', sent: '✓ TERKIRIM',
     evtHosted: 'Event Diselenggarakan', evtAttended: 'Event Dihadiri', evtPartners: 'Partner Protokol', evtSeeAll: 'LIHAT SEMUA DI LUMA',
+    evtShowMore: 'TAMPILKAN EVENT', evtHide: 'SEMBUNYIKAN',
   },
   en: {
     navHome: 'Home', navAbout: 'About', navExp: 'Experience', navSkills: 'Skills', navProjects: 'Projects', navEvents: 'Events', navGallery: 'Gallery', navContact: 'Contact',
@@ -31,6 +32,7 @@ const lang = {
     contactBtn: 'TRANSMIT MESSAGE', footerText: 'Built with passion & code',
     sending: 'TRANSMITTING...', sent: '✓ TRANSMITTED',
     evtHosted: 'Events Hosted', evtAttended: 'Events Attended', evtPartners: 'Protocol Partners', evtSeeAll: 'SEE ALL ON LUMA',
+    evtShowMore: 'SHOW EVENTS', evtHide: 'HIDE EVENTS',
   }
 };
 
@@ -287,10 +289,14 @@ function buildEventsHTML(cl) {
   const catIcons = {Workshop:'🔧',Meetup:'🤝',Roadshow:'🚀',Conference:'🎪'};
   const catHTML = Object.entries(cats).sort((a,b) => b[1]-a[1]).map(([k,v]) => `<div class="evt-cat-pill"><span class="evt-cat-icon">${catIcons[k]||'📌'}</span><span class="evt-cat-count">${v}</span><span class="evt-cat-name">${k}${v > 1 ? 's' : ''}</span></div>`).join('');
 
-  let yearHTML = '';
-  Object.keys(byYear).sort((a,b)=>b-a).forEach(year => {
+  const sortedYears = Object.keys(byYear).sort((a,b)=>b-a);
+  const currentYear = sortedYears[0]; // 2026 — always visible
+  const olderYears = sortedYears.slice(1); // 2025, 2024 — collapsible
+  const olderEventsCount = olderYears.reduce((sum, y) => sum + byYear[y].length, 0);
+
+  function buildYearCards(year) {
     const evts = byYear[year];
-    yearHTML += `<div class="evt-year-group fade-up">
+    return `<div class="evt-year-group fade-up">
       <div class="evt-year-label">
         <div class="evt-year-badge"><span class="evt-year">${year}</span></div>
         <div class="evt-year-line"></div>
@@ -308,7 +314,10 @@ function buildEventsHTML(cl) {
         </div>`).join('')}
       </div>
     </div>`;
-  });
+  }
+
+  const currentYearHTML = buildYearCards(currentYear);
+  const olderYearsHTML = olderYears.map(y => buildYearCards(y)).join('');
 
   return `
     <div class="evt-stats fade-up">
@@ -329,7 +338,25 @@ function buildEventsHTML(cl) {
       </div>
     </div>
     <div class="evt-cats fade-up">${catHTML}</div>
-    ${yearHTML}
+    ${currentYearHTML}
+    <div class="evt-older-toggle-wrap fade-up">
+      <button class="evt-older-toggle" id="evt-older-toggle" data-show="${t.evtShowMore}" data-hide="${t.evtHide}">
+        <span class="evt-toggle-line"></span>
+        <span class="evt-toggle-content">
+          <span class="evt-toggle-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+          </span>
+          <span class="evt-toggle-text">${t.evtShowMore}</span>
+          <span class="evt-toggle-count">${olderEventsCount}</span>
+        </span>
+        <span class="evt-toggle-line"></span>
+      </button>
+    </div>
+    <div class="evt-older-section" id="evt-older-section">
+      <div class="evt-older-inner">
+        ${olderYearsHTML}
+      </div>
+    </div>
     <div class="evt-cta fade-up">
       <a href="https://lu.ma/user/Yudhatama" target="_blank" class="btn cyber-btn-primary"><span class="btn-content"><span>${t.evtSeeAll}</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span></a>
     </div>`;
@@ -541,6 +568,29 @@ function initApp(cl) {
     window.scrollTo(0, sy);
     if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
   });
+
+  // ===== EVENTS TOGGLE =====
+  const evtToggle = document.getElementById('evt-older-toggle');
+  const evtOlderSection = document.getElementById('evt-older-section');
+  if (evtToggle && evtOlderSection) {
+    evtToggle.addEventListener('click', () => {
+      const isOpen = evtOlderSection.classList.toggle('evt-older-open');
+      evtToggle.classList.toggle('active', isOpen);
+      const textEl = evtToggle.querySelector('.evt-toggle-text');
+      const iconSvg = evtToggle.querySelector('.evt-toggle-icon svg');
+      if (isOpen) {
+        textEl.textContent = evtToggle.dataset.hide;
+        // Change + to − icon
+        iconSvg.innerHTML = '<path d="M5 12h14"/>';
+        // Trigger fade-up animations for newly visible cards
+        const obs = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } }), { threshold: 0.1 });
+        evtOlderSection.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+      } else {
+        textEl.textContent = evtToggle.dataset.show;
+        iconSvg.innerHTML = '<path d="M12 5v14"/><path d="M5 12h14"/>';
+      }
+    });
+  }
 
   // ===== GALLERY INIT =====
   initGallery(cl);
